@@ -1,5 +1,6 @@
 package com.example.coolweather;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -20,6 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.bumptech.glide.Glide;
 import com.example.coolweather.gson.Forecast;
 import com.example.coolweather.gson.Weather;
+import com.example.coolweather.service.AutoUpdateService;
 import com.example.coolweather.util.HttpUtil;
 import com.example.coolweather.util.Utility;
 
@@ -90,6 +92,8 @@ public class WeatherActivity extends AppCompatActivity {
             weatherId = weather.basic.weatherId;
 
             showWeatherInfo(weather);
+            Intent intent = new Intent(this, AutoUpdateService.class);
+            startService(intent);
         } else {
             weatherId = getIntent().getStringExtra("weather_id");
             weatherLayout.setVisibility(View.INVISIBLE);
@@ -155,7 +159,6 @@ public class WeatherActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(WeatherActivity.this, "获取天气信息失败",
                                     Toast.LENGTH_SHORT).show();
-
                         }
                         swipeRefresh.setRefreshing(false);
                     }
@@ -187,6 +190,7 @@ public class WeatherActivity extends AppCompatActivity {
             maxText.setText(forecast.temperature.max);
             minText.setText(forecast.temperature.min);
             forecastLayout.addView(view);
+
         }
         if (weather.aqi != null) {
             aqiText.setText(weather.aqi.city.aqi);

@@ -183,7 +183,7 @@ public class ChooseAreaFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
 
-                
+
                 String responseText = response.body().string();
                 boolean result = false;
                 if ("province".equals(type)) {
